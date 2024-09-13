@@ -1,0 +1,39 @@
+ul.nav {
+    padding-top: .3em;
+    background-color: #f7f5c8 !important;
+}
+a.nav-link {
+    background-color: #f0cc78;
+    color: black;
+    border: none !important;
+    margin-left:.15em;
+    padding-left:2em;
+    padding-right: 2em;
+}
+a.nav-link.active {
+background-color: #f1d592 !important;
+}
+body.bg-light {
+    background-color: #f1d592 !important;
+    position: relative;
+}
+.lines > hr {
+    margin-bottom: 1.5em;
+}
+.lines2 > hr {
+    margin-bottom: 1.5em;
+}
+.lines {
+position: relative;
+bottom: 0;
+width: 100%;
+}
+.lines2 {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    }
+
+    li.list-group-item, div.list-group-item.list-group-item-action {
+        background-color: #f7f5c8;
+    }
