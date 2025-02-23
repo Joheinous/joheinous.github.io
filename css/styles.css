@@ -37,3 +37,9 @@ width: 100%;
     li.list-group-item, div.list-group-item.list-group-item-action {
         background-color: #f7f5c8;
     }
+ol#output > li{
+font-size: 24px;
+}
+ol#output {
+    padding-top: 1em;
+}
