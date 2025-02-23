@@ -37,6 +37,7 @@
     </div>
     <div class="container">
         <button id="counterButton" class="btn btn-primary">Count Up!</button>
+        <button id="reset" class="btn btn-primary">Reset</button>
         <ol id="output"></ol>
     </div>
     <div class="lines2">
@@ -55,11 +56,25 @@
             let timestamp = document.createElement("li");
             timestamp.innerText = new Date().toLocaleTimeString([], { hour: '2-digit', minute: "2-digit", hour12: true });
             output.appendChild(timestamp);
-
+            localStorage.setItem("list", output.innerHTML);
         };
-
+        function loadTimers(){
+            if (localStorage.getItem("list") != null) {
+                let output = document.getElementById("output");
+                let list = localStorage.getItem("list");
+                output.innerHTML = list;
+            }
+        }
+        function reset(){
+            if(confirm("Are you sure you want to clear the times?")){
+            let output = document.getElementById("output");
+            output.innerHTML = "";
+            localStorage.clear();
+            }
+        }
         document.getElementById("counterButton").addEventListener("click", addTime);
-
+        document.getElementById("reset").addEventListener("click", reset);
+        loadTimers();
     </script>
   </body>
 </html>
