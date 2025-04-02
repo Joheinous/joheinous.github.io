@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="css/win95.css" rel="stylesheet" />
+</head>
+<style>
+    body {
+        margin-left: 30%;
+        margin-right: 30%;
+        margin-top: 6em;
+    }
+</style>
+<body>
+    <div class="container">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">Pick a Restaurant</h4>
+            </div>
+            <div class="card-body">
+                
+                <h5>Welcome to our state of the art Downtown Pittsburgh restaurant picker.</h5>
+				
+				
+				<div class="form-group row">
+                    <div class="col-sm-2">Weather:</div>
+                    <div class="col-sm-10">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="gridCheck1">
+                            <label class="form-check-label" for="gridCheck1">
+                                Extreme
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+				<button type="button" style="width:15%; margin-left: 85%" class="btn btn-md btn-outline-primary" onclick="chooseRestaurant();">Choose Restaurant</button>
+            </div>
+        </div>
+        </div>
+
+        <div class="modal fade show" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none; padding-right: 12px; margin-top: 15em;" aria-modal="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Chosen Restaurant</h5>
+                        <button type="button" onclick="closeModal();" class="btn" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <img src="images/sparkles.gif" class="img-fluid">
+                        <h5 style="color:black;">Your chosen restaurant is:<span id="restaurantOutput"></span>!</h5>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="chooseRestaurant();">Reroll</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    function closeModal() {
+        let modal = document.getElementById("modal");
+        modal.style.display="none";
+    }
+    
+    function chooseRestaurant() {
+        let modal = document.getElementById("modal");
+        modal.style.display="block";
+    }
+</script>
+</html>
