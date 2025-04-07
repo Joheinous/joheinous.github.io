@@ -80,7 +80,7 @@
     
     </div>
   
-   <footer style="width: 100%; background-color: silver; height: 3%; position: fixed; left: 0px; bottom: 0px; padding-top: 4px"> 
+   <footer style="width: 100%; background-color: silver; height: 3%; position: fixed; left: 0px; bottom: 0px; padding-top: 4px;"> 
         <div class="row" style="position: relative; left: 20px;">
             <div>
                 <a class="btn start-button" style="color:black;" ><img src="images/directory_open_cool-4.png" class="icon-16">Restaurant Picker</a>
@@ -99,8 +99,12 @@
         let modal = document.getElementById("modal");
         modal.style.display="block";
 
+        let weather = document.getElementById("gridCheck1");
+
         let number = Math.floor(Math.random() * 375);
         let choice = "";
+
+    if (weather.checked != true) {
 
     if (number < 8) {
         choice = "Chipotle";
@@ -150,7 +154,21 @@
     else if (number < 375) {
         choice = "Noodles & Co";
     }
-
+    }
+    else {
+        if (number < 20) {
+        choice = "Cafeteria";
+    }
+    else if (number < 120) {
+        choice = "Dungeon/Tunnel Restaurants";
+    }
+    else if (number < 200) {
+        choice = "Jimmy Johns";
+    }
+    else if (number < 375) {
+        choice = "Gyro Food Truck";
+    }
+    }
     let output = document.getElementById("restaurantOutput");
     output.innerText = choice;
     }
