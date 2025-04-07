@@ -29,6 +29,14 @@
         cursor: move;
         z-index: 12;
     }
+    #modal3 {
+        position: absolute;
+        z-index: 13;
+    }
+    #mydivheader3 {
+        cursor: move;
+        z-index: 14;
+    }
 </style>
 <body>
     
@@ -80,22 +88,63 @@
         </div>
     
     </div>
-  
+    <div class="modal fade show mydiv3" id="modal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none; padding-right: 12px; margin-top: 0em;" aria-modal="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" id="modal3">
+                <div class="modal-header" id="mydivheader3">
+                    <h5 class="modal-title" id="exampleModalLabel">Current Weather</h5>
+                    <button type="button" onclick="closeWeather();" class="btn" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h5 style="color:black;"> In Pittsburgh, it is currently <span id="weatherOutput"></span>°F</h5>
+                    <h5 style="color:black;">Sky: <span id="weatherOutput2"></span></h5>
+                </div>
+                <!--<div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="chooseRestaurant();">Reroll</button>
+                </div>-->
+            </div>
+        </div>
+    </div>
    <footer style="width: 100%; background-color: silver; height: 3%; position: fixed; left: 0px; bottom: 0px; padding-top: 4px;"> 
-        <div class="row" style="position: relative; left: 20px;">
+        <div class="row" style="position: relative; left: 20px; justify-content: space-between;">
             <div>
                 <a class="btn start-button" style="color:black;" ><img src="images/directory_open_cool-4.png" class="icon-16">Restaurant Picker</a>
+                <button class="btn start-button" onclick="openWeather();"><img src="images/world-1.png" class="icon-16">Current Weather</button>
             </div>
     </footer>
 
     
 </body>
 <script>
+    function capitalizeFirstLetter(val) {
+    return String(val).charAt(0).toUpperCase() + String(val).slice(1);
+}
     function closeModal() {
         let modal = document.getElementById("modal");
         modal.style.display="none";
     }
-    
+    function openWeather() {
+        console.log("test");
+       
+        let modal2 = document.getElementById("modal3");
+        modal2.style.display="block";
+
+        fetch("https://api.openweathermap.org/data/2.5/weather?q=Pittsburgh,US&units=imperial&APPID=727b9d6d26988771a018d05c68174460")
+  .then((response) => response.json())
+  .then((json) => weatherLog(json));
+    }
+    function weatherLog(json) {
+        let temperature = document.getElementById("weatherOutput");
+        let sky = document.getElementById("weatherOutput2")
+    temperature.innerText = Math.floor(json.main.temp);
+    sky.innerText = capitalizeFirstLetter(json.weather[0].description);
+    }
+    function closeWeather() {
+        let modal2 = document.getElementById("modal3");
+        modal2.style.display="none";
+    }
     function chooseRestaurant() {
         let modal = document.getElementById("modal");
         modal.style.display="block";
@@ -176,6 +225,7 @@
 
     dragElement(document.getElementById("mydiv"));
     dragElement(document.getElementById("modal2"));
+    dragElement(document.getElementById("modal3"));
 function dragElement(elmnt) {
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
   if (document.getElementById(elmnt.id + "header")) {
