@@ -18,7 +18,6 @@
         z-index: 9;
     }
     #mydivheader {
-        cursor: move;
         z-index: 10;
     }
     #modal2 {
@@ -26,14 +25,12 @@
         z-index: 11;
     }
     #mydivheader2 {
-        cursor: move;
         z-index: 12;
     }
     #modal3 {
         z-index: 13;
     }
     #mydivheader3 {
-        cursor: move;
         z-index: 14;
     }
 </style>
@@ -66,10 +63,10 @@
         </div>
         </div>
 
-        <div class="modal fade show mydiv2" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none; padding-right: 12px; margin-top: 0em;" aria-modal="true">
+        <div class="modal fade show mydiv2" id="mydiv2" tabindex="-1" role="dialog" aria-labelledby="restaurant output" style="display: none; padding-right: 12px; margin-top: 0em;" aria-modal="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content" id="modal2">
-                    <div class="modal-header" id="mydivheader2">
+                    <div class="modal-header" id="mydiv2header">
                         <h5 class="modal-title" id="exampleModalLabel">Chosen Restaurant</h5>
                         <button type="button" onclick="closeModal();" class="btn" aria-label="Close">
                             <span aria-hidden="true">×</span>
@@ -87,10 +84,10 @@
         </div>
     
     </div>
-    <div class="modal fade show mydiv3" id="modal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none; padding-right: 12px; margin-top: 0em;" aria-modal="true">
+    <div class="modal fade show mydiv3" id="mydiv3" tabindex="-1" role="dialog" aria-labelledby="weather" style="display: none; padding-right: 12px; margin-top: 0em;" aria-modal="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content" id="modal3">
-                <div class="modal-header" id="mydivheader3">
+                <div class="modal-header" id="mydiv3header">
                     <h5 class="modal-title" id="exampleModalLabel">Current Weather</h5>
                     <button type="button" onclick="closeWeather();" class="btn" aria-label="Close">
                         <span aria-hidden="true">×</span>
@@ -100,9 +97,6 @@
                     <h5 style="color:black;"> In Pittsburgh, it is currently <span id="weatherOutput"></span>°F</h5>
                     <h5 style="color:black;">Sky: <span id="weatherOutput2"></span></h5>
                 </div>
-                <!--<div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="chooseRestaurant();">Reroll</button>
-                </div>-->
             </div>
         </div>
     </div>
@@ -121,13 +115,13 @@
     return String(val).charAt(0).toUpperCase() + String(val).slice(1);
 }
     function closeModal() {
-        let modal = document.getElementById("modal");
+        let modal = document.getElementById("mydiv2");
         modal.style.display="none";
     }
     function openWeather() {
         console.log("test");
        
-        let modal2 = document.getElementById("modal3");
+        let modal2 = document.getElementById("mydiv3");
         modal2.style.display="block";
 
         fetch("https://api.openweathermap.org/data/2.5/weather?q=Pittsburgh,US&units=imperial&APPID=727b9d6d26988771a018d05c68174460")
@@ -145,7 +139,7 @@
         modal2.style.display="none";
     }
     function chooseRestaurant() {
-        let modal = document.getElementById("modal");
+        let modal = document.getElementById("mydiv2");
         modal.style.display="block";
 
         let weather = document.getElementById("gridCheck1");
@@ -223,8 +217,8 @@
     }
 
     dragElement(document.getElementById("mydiv"));
-    dragElement(document.getElementById("modal2"));
-    dragElement(document.getElementById("modal3"));
+    dragElement(document.getElementById("mydiv2"));
+    dragElement(document.getElementById("mydiv3"));
 function dragElement(elmnt) {
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
   if (document.getElementById(elmnt.id + "header")) {
