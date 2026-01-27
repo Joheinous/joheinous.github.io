@@ -96,6 +96,7 @@
                 <div class="modal-body">
                     <h5 style="color:black;"> In Pittsburgh, it is currently <span id="weatherOutput"></span>°F</h5>
                     <h5 style="color:black;">Sky: <span id="weatherOutput2"></span></h5>
+                    <h5 style="color:black;">Feels Like: <span id="weatherOutput3"></span>°F</h5>
                 </div>
             </div>
         </div>
@@ -130,9 +131,12 @@
     }
     function weatherLog(json) {
         let temperature = document.getElementById("weatherOutput");
-        let sky = document.getElementById("weatherOutput2")
+        let sky = document.getElementById("weatherOutput2");
+        let feelsLike = document.getElementById("weatherOutput3");
     temperature.innerText = Math.floor(json.main.temp);
     sky.innerText = capitalizeFirstLetter(json.weather[0].description);
+    feelsLike.innerText = Math.floor(json.main.feels_like);
+    console.log(json);
     }
     function closeWeather() {
         let modal2 = document.getElementById("modal3");
