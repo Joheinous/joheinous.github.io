@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokémon Tournament Timer</title>
+  <style>
+    :root {
+      --primary: #cc5502;
+      --primary-dark: #9e4100;
+      --text: #231f20;
+      --muted: #6f625b;
+      --surface: #ffffff;
+      --surface-warm: #fff8f2;
+      --danger: #b85c5c;
+      --danger-soft: #f7e6e3;
+      --shadow: 0 28px 70px rgba(72, 38, 14, 0.16);
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top right, rgba(204, 85, 2, 0.15), transparent 34rem),
+        linear-gradient(135deg, #ffffff 0%, #fffaf6 52%, #ffffff 100%);
+      overflow: hidden;
+    }
+
+    .logo {
+      position: fixed;
+      top: 28px;
+      left: 28px;
+      width: min(190px, 32vw);
+      height: auto;
+      z-index: 2;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 120px 24px 48px;
+    }
+
+    .timer-card {
+      width: min(860px, 100%);
+      padding: clamp(36px, 6vw, 70px);
+      border: 1px solid rgba(204, 85, 2, 0.16);
+      border-radius: 34px;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: var(--shadow);
+      text-align: center;
+      backdrop-filter: blur(18px);
+      transition: background 240ms ease, border-color 240ms ease, box-shadow 240ms ease;
+    }
+
+    .timer-card.overtime {
+      border-color: rgba(184, 92, 92, 0.42);
+      background: var(--danger-soft);
+      box-shadow: 0 28px 70px rgba(110, 40, 40, 0.16);
+    }
+
+    .display {
+      display: inline-flex;
+      min-width: min(650px, 100%);
+      justify-content: center;
+      margin-bottom: 42px;
+      padding: clamp(30px, 5vw, 52px) clamp(24px, 5vw, 58px);
+      border-radius: 28px;
+      color: var(--primary);
+      background: var(--surface-warm);
+      font-variant-numeric: tabular-nums;
+      font-size: clamp(5.6rem, 17vw, 11rem);
+      font-weight: 800;
+      line-height: 0.9;
+      letter-spacing: -0.08em;
+      box-shadow: inset 0 0 0 1px rgba(204, 85, 2, 0.14);
+      transition: color 240ms ease, background 240ms ease, box-shadow 240ms ease;
+    }
+
+    .timer-card.overtime .display {
+      color: var(--danger);
+      background: rgba(255, 255, 255, 0.64);
+      box-shadow: inset 0 0 0 1px rgba(184, 92, 92, 0.24);
+    }
+
+    .preset-group,
+    .control-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .preset-group {
+      margin-bottom: 18px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 999px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 160ms ease, background 160ms ease, color 160ms ease, box-shadow 160ms ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .preset {
+      padding: 13px 20px;
+      color: var(--primary);
+      background: #ffffff;
+      box-shadow: inset 0 0 0 1px rgba(204, 85, 2, 0.22);
+    }
+
+    .preset.active {
+      color: #ffffff;
+      background: var(--primary);
+      box-shadow: 0 12px 24px rgba(204, 85, 2, 0.2);
+    }
+
+    .control {
+      min-width: 118px;
+      padding: 15px 24px;
+      color: #ffffff;
+      background: var(--primary);
+      box-shadow: 0 14px 26px rgba(204, 85, 2, 0.2);
+    }
+
+    .control.secondary {
+      color: var(--primary-dark);
+      background: #ffffff;
+      box-shadow: inset 0 0 0 1px rgba(204, 85, 2, 0.22);
+    }
+
+    .status {
+      min-height: 24px;
+      margin: 24px 0 0;
+      color: var(--muted);
+      font-size: 0.98rem;
+      font-weight: 700;
+    }
+
+    .timer-card.overtime .status {
+      color: #854444;
+    }
+
+    @media (max-width: 620px) {
+      body {
+        overflow: auto;
+      }
+
+      .logo {
+        top: 18px;
+        left: 18px;
+        width: 132px;
+      }
+
+      .page {
+        padding-top: 98px;
+      }
+
+      .timer-card {
+        border-radius: 26px;
+      }
+
+      .display {
+        min-width: 0;
+        width: 100%;
+      }
+
+      .control,
+      .preset {
+        flex: 1 1 135px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <img class="logo" src="images/Ctransparent.avif" alt="Card Crate logo">
+
+  <main class="page">
+    <section class="timer-card" id="timerCard" aria-label="Tournament timer">
+      <div class="display" id="display" aria-live="polite">30:00</div>
+
+      <div class="preset-group" aria-label="Timer duration presets">
+        <button class="preset" type="button" data-minutes="20">20 Minutes</button>
+        <button class="preset active" type="button" data-minutes="30">30 Minutes</button>
+        <button class="preset" type="button" data-minutes="75">75 Minutes</button>
+      </div>
+
+      <div class="control-group">
+        <button class="control" type="button" id="startPauseButton">Start</button>
+        <button class="control secondary" type="button" id="resetButton">Reset</button>
+      </div>
+
+      <p class="status" id="status">Select a duration and press Start.</p>
+    </section>
+  </main>
+
+  <script>
+    const display = document.getElementById('display');
+    const timerCard = document.getElementById('timerCard');
+    const statusText = document.getElementById('status');
+    const startPauseButton = document.getElementById('startPauseButton');
+    const resetButton = document.getElementById('resetButton');
+    const presetButtons = document.querySelectorAll('.preset');
+
+    const maxOvertimeSeconds = -10 * 60;
+    let selectedDurationSeconds = 30 * 60;
+    let remainingSeconds = selectedDurationSeconds;
+    let timerId = null;
+    let lastTickTime = null;
+
+    function formatTime(totalSeconds) {
+      const sign = totalSeconds < 0 ? '-' : '';
+      const absoluteSeconds = Math.abs(totalSeconds);
+      const minutes = Math.floor(absoluteSeconds / 60);
+      const seconds = absoluteSeconds % 60;
+
+      return `${sign}${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }
+
+    function updateDisplay() {
+      display.textContent = formatTime(remainingSeconds);
+      timerCard.classList.toggle('overtime', remainingSeconds < 0);
+
+      if (remainingSeconds <= maxOvertimeSeconds) {
+        statusText.textContent = 'Overtime limit reached.';
+      } else if (remainingSeconds < 0) {
+        statusText.textContent = 'Time has expired. Overtime is counting.';
+      } else if (timerId) {
+        statusText.textContent = 'Timer running.';
+      } else {
+        statusText.textContent = 'Select a duration and press Start.';
+      }
+    }
+
+    function stopTimer() {
+      clearInterval(timerId);
+      timerId = null;
+      lastTickTime = null;
+      startPauseButton.textContent = 'Start';
+    }
+
+    function tick() {
+      const now = Date.now();
+      const elapsedSeconds = Math.floor((now - lastTickTime) / 1000);
+
+      if (elapsedSeconds < 1) {
+        return;
+      }
+
+      lastTickTime += elapsedSeconds * 1000;
+      remainingSeconds = Math.max(maxOvertimeSeconds, remainingSeconds - elapsedSeconds);
+
+      if (remainingSeconds <= maxOvertimeSeconds) {
+        stopTimer();
+      }
+
+      updateDisplay();
+    }
+
+    function startTimer() {
+      if (remainingSeconds <= maxOvertimeSeconds) {
+        remainingSeconds = selectedDurationSeconds;
+      }
+
+      lastTickTime = Date.now();
+      timerId = setInterval(tick, 250);
+      startPauseButton.textContent = 'Pause';
+      updateDisplay();
+    }
+
+    function resetTimer() {
+      stopTimer();
+      remainingSeconds = selectedDurationSeconds;
+      updateDisplay();
+    }
+
+    presetButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        selectedDurationSeconds = Number(button.dataset.minutes) * 60;
+        presetButtons.forEach((presetButton) => presetButton.classList.remove('active'));
+        button.classList.add('active');
+        resetTimer();
+      });
+    });
+
+    startPauseButton.addEventListener('click', () => {
+      if (timerId) {
+        stopTimer();
+        statusText.textContent = 'Timer paused.';
+        return;
+      }
+
+      startTimer();
+    });
+
+    resetButton.addEventListener('click', resetTimer);
+
+    updateDisplay();
+  </script>
+</body>
+</html>
