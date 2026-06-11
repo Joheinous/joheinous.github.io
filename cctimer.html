@@ -187,9 +187,48 @@
         flex: 1 1 135px;
       }
     }
+.rainbow-text {
+            font-size: 3rem;
+            font-weight: bold;
+            /* Create a repeating gradient of rainbow colors */
+            background-image: linear-gradient(
+                to right, 
+                #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000
+            );
+            /* Make the background pattern extra wide for smooth scrolling */
+            background-size: 200% auto;
+            /* Clip the background pattern directly to the text shapes */
+            background-clip: text;
+            -webkit-background-clip: text;
+            /* Hide the original text color so the background shines through */
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+            /* Link the animation keyframes defined below */
+            animation: shift-rainbow 4s linear infinite;
+        }
+
+        /* Continuous scrolling logic for the background */
+        @keyframes shift-rainbow {
+            0% {
+                background-position: 0% center;
+            }
+            100% {
+                background-position: 200% center;
+            }
+        }
+.container {
+   position: absolute;
+  width: 30%;
+  left: 35%;
+  top: 5%;
+  text-align: center;
+}
+
   </style>
 </head>
-<body>
+<body><div class="container">
+  <h2 style="font-family: 'Comic Sans MS', cursive, sans-serif;" class="rainbow-text">Current Card Crate Cup or Challenge Champion (CCCCCC): Sean!</p>
+</div>
   <img class="logo" src="images/Ctransparent.avif" alt="Card Crate logo">
 
   <main class="page">
