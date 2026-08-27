@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClickFix</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f5f5f5;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .container {
+      width: min(800px, 100%);
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 300px;
+      padding: 20px;
+      border: 2px solid #d1d5db;
+      border-radius: 12px;
+      font-size: 16px;
+      font-family: inherit;
+      resize: vertical;
+      outline: none;
+      transition: border-color 200ms ease;
+    }
+
+    textarea:focus {
+      border-color: #3b82f6;
+    }
+
+    .status {
+      margin-top: 16px;
+      color: #6b7280;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .status.copied {
+      color: #059669;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <textarea id="textarea" placeholder="Type here... text will be copied to clipboard after 5 seconds of inactivity"></textarea>
+    <p class="status" id="status">Waiting for input...</p>
+  </div>
+
+  <script>
+    const textarea = document.getElementById('textarea');
+    const status = document.getElementById('status');
+    let copyTimeout = null;
+
+    async function copyToClipboard() {
+      try {
+        await navigator.clipboard.writeText(textarea.value);
+        status.textContent = 'Copied to clipboard!';
+        status.classList.add('copied');
+        setTimeout(() => {
+          status.classList.remove('copied');
+          status.textContent = 'Waiting for input...';
+        }, 2000);
+      } catch (err) {
+        status.textContent = 'Failed to copy to clipboard';
+        console.error('Clipboard error:', err);
+      }
+    }
+
+    textarea.addEventListener('input', () => {
+      if (copyTimeout) {
+        clearTimeout(copyTimeout);
+      }
+
+      if (textarea.value.trim() === '') {
+        status.textContent = 'Waiting for input...';
+        return;
+      }
+
+      status.textContent = 'Copying in 5 seconds...';
+      copyTimeout = setTimeout(copyToClipboard, 5000);
+    });
+  </script>
+</body>
+</html>
